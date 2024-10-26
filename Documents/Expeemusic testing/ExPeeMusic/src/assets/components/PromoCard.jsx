@@ -10,7 +10,7 @@ function PromoCard(props) {
         </div>
         <hr className='border border-stone-200 rounded-lg mt-2 w-4/5 mx-auto' />
         <div className=' max-w-56 flex-initial text-stone-900 text-center text-xs pt-3 transition-all hover:text-zinc-300 group-hover:text-white '>
-           Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio quaerat, nulla atque harum libero in veniam corrupti aliquam mollitia sit, 
+          Professionaly Produced Beats Fit for your projects,get a sneak peak right now , let the mosphit happen .
             
         </div>
         <div className='text-sm text-center pt-1 group-hover:text-white'>Learn More</div>
