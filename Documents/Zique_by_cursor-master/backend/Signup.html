@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                line-height: 1.6;
+                margin: 0;
+                padding: 0;
+                background: #f4f4f4;
+            }
+            .container {
+                max-width: 600px;
+                margin: 20px auto;
+                padding: 20px;
+                border: 1px solid #ccc;
+                border-radius: 10px;
+                background: #f9f9f9;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            }
+            .header {
+                text-align: center;
+                padding: 10px;
+                background: #000000;
+                color: white;
+                border-radius: 10px 10px 0 0;
+                overflow: hidden;
+            }
+            .content {
+                padding: 20px;
+                color: #333;
+            }
+            .otp {
+                font-size: 1.5rem;
+                color: #ba047e;
+                font-weight: bold;
+                text-align: center;
+                display: block;
+                margin: 20px 0;
+            }
+            .footer {
+                text-align: center;
+                padding: 10px;
+                font-size: 0.9rem;
+                color: #888;
+                border-top: 1px solid #ccc;
+                margin-top: 20px;
+            }
+            .logo {
+                height: 50%;
+                width: 50%;
+                transform: scale(1.2);
+                border-radius: 0.5rem;
+            }
+
+            /* Media Query for Smaller Screens */
+            @media screen and (max-width: 768px) {
+                .container {
+                    margin: 10px;
+                    padding: 15px;
+                }
+                .content {
+                    padding: 15px;
+                }
+                .otp {
+                    font-size: 1.25rem;
+                }
+                .logo {
+                    width: 60%;
+                    transform: scale(1);
+                    height: 50%;
+                }
+            }
+
+            @media screen and (max-width: 480px) {
+                .container {
+                    margin: 10px;
+                    padding: 10px;
+                }
+                .content {
+                    padding: 10px;
+                }
+                .otp {
+                    font-size: 1rem;
+                }
+                .logo {
+                    width: 70%;
+                    height: 50%;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <img src="https://i.pinimg.com/736x/14/d2/58/14d2584eea31adb80ada7857db8dc895.jpg" class="logo" alt="Zique Logo">
+            </div>
+            <div class="content">
+                <p><b>Hi ${username},</b></p>
+                <p>Welcome to Zique! We’re excited to have you on board. To keep your account secure, we need to verify your email address. </p>
+                <p>Your One-Time Password (OTP) is:</p>
+                <p class="otp">${generatedOtp}</p>
+                <p>This OTP is valid for the next 5 minutes. Please enter it on the web-app to complete your registration.</p>
+                <p>If you didn’t request this email, please ignore it. Your account is safe with us.</p>
+                <p>Feel free to reach out if you have any questions or need assistance.</p>
+                <p>Happy dining,</p>
+                <p><b><i>The Zique Team</i></b></p>
+            </div>
+            <div class="footer">
+                <p>&copy; 2025 Zique. All rights reserved.</p>
+            </div>
+        </div>
+    </body>
+</html>
