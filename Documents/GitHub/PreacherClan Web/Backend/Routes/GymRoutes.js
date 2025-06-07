@@ -71,4 +71,14 @@ router.get('/join/:gymCode/:userId' , async(req,res)=>{
     }
 });
 
+router.get('/all', async (req, res) => {
+    try {
+        const gyms = await Gym.find().populate('members', '-password -__v');
+        res.status(200).json(gyms);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: error.message });
+    }
+});
+
 module.exports = router;

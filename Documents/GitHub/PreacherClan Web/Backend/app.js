@@ -6,6 +6,14 @@ const useragent = require("express-useragent");
 const cors = require('cors');
 const GymRoutes = require('./Routes/GymRoutes');
 const requestHandlerRouter = require('./Routes/RequestHandlerRouter');
+const userRouter = require('./Routes/UserRouter');
+const http = require('http');
+const { Server } = require('socket.io');
+const server = http.createServer(app);
+const {initSocket} = require('./socket');
+initSocket(server);
+const NotificationRouter = require('./Routes/NotificationRouter');
+
 
 
 conn();
@@ -30,9 +38,11 @@ app.use('/profile', ProfileRoutes);
 app.use('/gym', GymRoutes);
 app.use('/join', JoinGymRoutes);
 app.use('/requests' , requestHandlerRouter);
+app.use('/user', userRouter);
+app.use('/notifications', NotificationRouter);
 
 
 const port = process.env.PORT || 3000 ;
-app.listen(port, ()=>{
-    console.log('server is up and running on ' +port)
+server.listen(port, ()=> {
+    console.log('server + socket.io is up and running on ' + port);
 });

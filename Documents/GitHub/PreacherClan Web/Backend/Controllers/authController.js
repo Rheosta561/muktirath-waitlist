@@ -15,6 +15,6 @@ exports.googleAuthCallback = (req, res, next) => {
       const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: "7d" });
   
 
-      return res.redirect(`http://localhost:5173/dashboard?token=${token}/${user._id}`);
+      return res.redirect(`http://localhost:5173/dashboard?token=${token}`);
     })(req, res, next);
   };
