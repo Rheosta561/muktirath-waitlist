@@ -1,6 +1,7 @@
 import React from 'react';
 import bg from '../assets/bg.jpg';
 import { useNavigate } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
 
 const Login = () => {
     const navigate = useNavigate();
@@ -12,6 +13,7 @@ const Login = () => {
     const handleGoogleLogin = () => {
         window.location.href = "http://localhost:3000/auth/google";
     };
+    
 
     return (
         <div className='relative'>

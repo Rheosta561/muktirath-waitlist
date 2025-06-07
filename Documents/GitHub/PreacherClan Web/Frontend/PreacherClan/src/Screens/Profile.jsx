@@ -5,6 +5,7 @@ import UserGoalCard from "../Components/UserGoalCard";
 import GymCard from "../Components/GymCard";
 import RepMateCard from "../Components/RepMateCard";
 import RepMate from "../assets/RepMate.png";
+import BottomRow from "../Components/bottomRow";
 function Profile() {
     const mockUser = {
   name: "Aarav Mehta",
@@ -29,6 +30,7 @@ function Profile() {
 };
   return (
     <div className="bg-zinc-950 h w-screen text-white pt-20">
+      <BottomRow/>
       <div className="h-52 w-full  relative ">
         <img
           src="https://images.unsplash.com/photo-1605296867424-35fc25c9212a?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8YmFjayUyMHdvcmtvdXR8ZW58MHx8MHx8fDA%3D"

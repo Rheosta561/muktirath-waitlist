@@ -12,12 +12,15 @@
   "dependencies": {
     "@heroui/react": "^2.7.9",
     "@nextui-org/react": "^2.6.11",
+    "axios": "^1.9.0",
     "framer-motion": "^12.16.0",
+    "jwt-decode": "^4.0.0",
     "lucide-react": "^0.513.0",
     "react": "^19.0.0",
     "react-circular-progressbar": "^2.2.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.4.1",
+    "socket.io-client": "^4.8.1",
     "sonner": "^2.0.5",
     "tailwind-scrollbar-hide": "^4.0.0"
   },

@@ -1,6 +1,7 @@
-import React, { useRef, useState , useEffect } from "react";
+import React, { useRef, useState , useEffect, use } from "react";
 import bg from "./assets/bg.jpg";
 import PromoCard from "./Components/PromoCard";
+import { jwtDecode } from "jwt-decode";
 
 import search from "./assets/search.png";
 import SearchResult from "./Components/SearchResult";
@@ -8,11 +9,17 @@ import BottomRow from "./Components/bottomRow";
 import GymInfoCard from "./Components/GymInfoCard";
 import AdviceCard from "./Components/AdviceCard";
 import ProfileCard from "./Components/ProfileCard";
+import { div, param } from "framer-motion/client";
+import axios from "axios";
+import { toast } from "sonner";
+import { usePersistentState } from "./hooks/usePersistentState";
 
 function Dashboard() {
     const scrollRef = useRef(null);
     const [activeIndex, setActiveIndex] = useState(0);
     const [searchQuery, setSearchQuery] = useState("");
+    const [Gyms, setGyms] = usePersistentState("gyms", []);
+    const [user, setUser] = usePersistentState("user", null);
 function getYouTubeEmbedUrl(videoUrl, autoplay = false) {
   try {
     const url = new URL(videoUrl);
@@ -27,6 +34,9 @@ function getYouTubeEmbedUrl(videoUrl, autoplay = false) {
     return null;
   }
 }
+const params = new URLSearchParams(window.location.search);
+
+
 
 
     
@@ -39,10 +49,10 @@ function getYouTubeEmbedUrl(videoUrl, autoplay = false) {
     ];
 
     // Filter gyms based on search query
-    const filteredGyms = gyms.filter(gym => 
+    const filteredGyms = Gyms.filter(gym => 
         gym.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        gym.city.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        gym.country.toLowerCase().includes(searchQuery.toLowerCase())
+        gym.location.toLowerCase().includes(searchQuery.toLowerCase()) 
+
     );
 
     const handleScroll = () => {
@@ -94,6 +104,57 @@ useEffect(() => {
 
   return () => clearInterval(interval); // cleanup on unmount
 }, []);
+useEffect(() => {
+  const getToken = async()=>{
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get('token');
+    if (token) {
+      localStorage.setItem('token', token);
+      const decoded = jwtDecode(token);
+      const userId = decoded.userId;
+      
+      console.log("Decoded Token:", decoded);
+      try {
+        const response = await axios.get(`http://localhost:3000/user/${userId}`);
+        console.log("User Found",response.data);
+        localStorage.setItem('user', JSON.stringify(response.data));
+        localStorage.setItem('token', token);
+        toast.success("Welcome to Preacher Clan!");
+        
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+
+        
+      }
+
+  }}
+  getToken();
+  
+
+  
+}, [])
+useEffect(() => {
+  const fetchGyms = async()=>{
+    try {
+      const response = await axios.get("http://localhost:3000/gym/all");
+      if(response.data && response.data.length > 0) {
+        console.log("Total Gyms Found:", response.data.length);
+        setGyms(response.data);
+
+      }
+      
+    } catch (error) {
+      console.error("Error fetching gyms:", error);
+      toast.error("Failed to fetch gyms. Please try again later.");
+      
+    }
+  }
+  fetchGyms();
+
+  
+}, [])
+
+
 
 
     return (
@@ -182,38 +243,24 @@ useEffect(() => {
                <hr className="border-zinc-100 opacity-30 " />
   <div className="overflow-x-auto flex gap-4 snap-x snap-mandatory  mt-4 scrollbar-hide">
   <div className="flex gap-4 min-w-max">
-    <GymInfoCard
-      gym={{
-        name: "Iron Paradise Gym",
-        image: "https://images.unsplash.com/photo-1550345332-09e3ac987658",
-        location: "Delhi, India",
-        trainers: 12,
-        equipments: [
-          "Treadmills",
-          "Sauna",
-          "Steam Bath",
-          "Dumbbells",
-          "Crossfit Rig",
-        ],
-        fees: 1800,
-        onJoin: () => alert("Welcome to Iron Paradise!"),
-        featured: true,
-        rating: 4.8,
-      }}
-    />
-    <GymInfoCard
-      gym={{
-        name: "Beast Mode Fitness",
-        image: "https://images.unsplash.com/photo-1579758629938-03607ccdbaba",
-        location: "Mumbai, India",
-        trainers: 10,
-        equipments: ["Cardio Zone", "Kettlebells", "TRX", "Steam", "Rowing Machine"],
-        fees: 1500,
-        onJoin: () => alert("Welcome to Beast Mode!"),
-        featured: false,
-        rating: 4.6,
-      }}
-    />
+    {filteredGyms.map((gym, index) => (
+      <GymInfoCard
+        key={index}
+        gym={{
+          name: gym.name,
+          image: gym.image,
+          location: `${gym.location}, India`,
+          trainers:  "10", 
+          equipments: ["Treadmills", "Dumbbells", "Crossfit Rig", "Kettlebells"], 
+          fees: "1500", 
+          onJoin: () => alert(`Welcome to ${gym.name}!`),
+          featured: index % 2 === 0, 
+          rating: "5", 
+        }}
+      />
+      
+    ))}
+ 
   </div>
 </div>
  <br />

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, redirect, useNavigate } from "react-router-dom";
 import {
   MessageSquare,
   Info,
@@ -8,15 +8,27 @@ import {
   MessageCircle,
   Bell,
 } from "lucide-react";
+import { useNotification } from "../context/NotificationContext"; // adjust this import path
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const user = JSON.parse(localStorage.getItem("user"));
+  if (!user) {
+    redirect("/");
+  }
+  const navigate = useNavigate();
+  const handleNavigate = (path) => {
+    setIsOpen(false);
+    navigate(path);
+  };
+
+  const { notifications } = useNotification(); // 👈 Use notifications from context
 
   return (
-    <nav className="bg-zinc-950 bg-opacity-70 shadow-md border-b border-zinc-900 fixed z-50 inset-x-0 top-0">
+    <nav className="bg-zinc-950 bg-opacity-95 shadow-md border-b border-zinc-900 fixed z-50 inset-x-0 top-0">
       <div className="max-w-screen-xl mx-auto flex items-center justify-between px-4 py-4">
         {/* Left: Logo & Avatar */}
-        <Link to="/" className="flex items-center space-x-3">
+        <Link to="/profile" className="flex items-center space-x-3">
           <div className="p-1 rounded-full bg-zinc-950">
             <MessageSquare size={22} className="text-zinc-300" />
           </div>
@@ -25,15 +37,23 @@ function Navbar() {
             alt="Avatar"
             className="h-8 w-8 rounded-full object-cover border border-zinc-800"
           />
-          <p className="text-zinc-300 text-xs">Hi Anubhav</p>
+          <p className="text-zinc-300 text-xs">Hi {user.name}</p>
         </Link>
 
         {/* Right: Notification + Hamburger */}
         <div className="flex items-center space-x-4">
           {/* Notification Icon */}
-          <div className="relative cursor-pointer group">
+          <div
+            className="relative cursor-pointer group"
+            onClick={() => handleNavigate("/notifications")}
+          >
+            <span className="sr-only">Notifications</span>
             <Bell className="text-zinc-300 hover:text-white" size={20} />
-            <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full " />
+            {notifications.length > 0 && (
+              <span className="absolute -top-1 -right-1 text-[10px] w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center">
+                {notifications.length > 9 ? "9+" : notifications.length}
+              </span>
+            )}
           </div>
 
           {/* Hamburger (Mobile) */}

@@ -12,8 +12,14 @@ import Notifications from './Screens/Notifications';
 import Profile from './Screens/Profile';
 import SearchScreen from './Screens/SearchScreen';
 import Clan from './Screens/Clan';
+import { socket } from './socket';
+import { NotificationProvider } from './context/NotificationContext';
+import NotificationListener from './Components/NotificationListener' ;
 function App() {
+  
   return (
+  <NotificationProvider>
+    <NotificationListener />
     
     
     <BrowserRouter>
@@ -33,7 +39,7 @@ function App() {
     <Layout>
       <Navbar/>
     <Routes>
-        <Route path='/login' element={<Login />} />
+        <Route path='/' element={<Login />} />
         <Route path='/signup' element={<Signup/>} />
         
         <Route path='/dashboard' element={<Dashboard/>} />
@@ -49,6 +55,7 @@ function App() {
     </Layout>
 
     </BrowserRouter>
+    </NotificationProvider>
   );
 }
 

@@ -2,6 +2,10 @@ import React from 'react';
 import bg from '../assets/bg.jpg'
 
 const Signup = () => {
+  const handleGoogleLogin = () => {
+        window.location.href = "http://localhost:3000/auth/google";
+    };
+
   return (
     <div className='relative'>
         <img src={bg} alt="" className='h-screen w-screen object-cover absolute inset-0' />
@@ -11,7 +15,7 @@ const Signup = () => {
   <h2 className="text-[#fffefedb] text-2xl font-semibold mb-6 text-center">Sign Up</h2>
   
   <div className="flex space-x-4 mb-4">
-    <button className="flex-1 bg-[#000000a9] hover:bg-zinc-950 transition-all text-zinc-100 text-sm py-3 px-4 rounded flex items-center justify-center shadow">
+    <button className="flex-1 bg-[#000000a9] hover:bg-zinc-950 transition-all text-zinc-100 text-sm py-3 px-4 rounded flex items-center justify-center shadow" onClick={handleGoogleLogin}>
       <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" className="w-5 h-5 mr-2" />
       Sign Up with Google
     </button>
