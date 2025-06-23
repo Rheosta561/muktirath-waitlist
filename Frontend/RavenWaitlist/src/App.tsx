@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { BrowserRouter, Routes , Route } from 'react-router-dom'
 import LandingPage from './Screens/LandingPage'
 import { ThemeProvider } from './components/theme-provider'
@@ -14,7 +14,7 @@ function App() {
    <Navbar/>
  
    <Routes>
-    <Route path='/home' element={<LandingPage/>}/>
+    <Route path='/' element={<LandingPage/>}/>
    </Routes>
    <Footer/>
    </BrowserRouter>
