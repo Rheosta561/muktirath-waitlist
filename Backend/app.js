@@ -18,6 +18,17 @@ app.get('/' , (req,res)=>{
     res.send('working');
 })
 
+app.get('/count' , async(req,res)=>{
+    try {
+        const count = await user.countDocuments();
+        res.status(200).json({count})
+        
+    } catch (error) {
+        res.status(500).json({error:error.message});
+        
+    }
+})
+
 app.post('/signup' , async(req,res)=>{
     try {
         console.log('hit');
@@ -26,12 +37,14 @@ app.post('/signup' , async(req,res)=>{
         email
 
     });
+    const count = await user.countDocuments();
 
     const token = jwt.sign({_id: createdUser._id , email:createdUser.email}  , 'secret');
 
     res.status(200).json({
         message:"Thank You For Joining The Waitlist , We'll Notify As soon As we are Live",
-        token
+        token,
+        total : count
     })
         
     } catch (error) {

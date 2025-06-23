@@ -29,7 +29,7 @@ export default function Navbar() {
   }, [])
 
   return (
-    <div className="w-full fixed top-0 z-30 right-0 left-0 bg-opacity-80 px-4 py-3 border-b border-border bg-background flex items-center justify-between">
+    <div className="w-full fixed top-0 z-30 right-0 left-0 bg-opacity-70  px-4 py-3 border-b border-border bg-background flex items-center justify-between">
 
       <div className="text-xl font-bold flex items-center gap-4">
         <img

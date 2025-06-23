@@ -10,12 +10,13 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
+  CarouselNext,
+  CarouselPrevious
 } from "../components/ui/carousel"
 import { Input } from "../components/ui/input"
 import { Button } from "../components/ui/button"
 import { Card, CardContent } from "../components/ui/card"
 import { Separator } from "../components/ui/separator"
-import { CarouselNext, CarouselPrevious } from "../components/ui/carousel"
 
 const taglines = [
   "Wanted to be a Hero?",
@@ -27,9 +28,8 @@ const taglines = [
 const screenshots = [
   { src: WatchTower, caption: "The Raven Board - Your city. Your signal. Stay in the shadows." },
   { src: RavenCallAlert, caption: "Raven Call - In danger or distress? Just press the Raven Call — help is on the way. " },
-    { src: RavenHome, caption: "Raven Alert - The city’s dark corners have eyes — yours. This is your chance to be the Batman. Step in. Step up.." },
+  { src: RavenHome, caption: "Raven Alert - The city’s dark corners have eyes — yours. This is your chance to be the Batman. Step in. Step up.." },
   { src: RavenCall, caption: "WatchTower - The city’s dark corners have eyes — yours." },
-
 ]
 
 const mockCrimeStats = [
@@ -47,13 +47,13 @@ export default function LandingPage() {
   const [email, setEmail] = useState<string>('')
   const [responseMessage, setResponseMessage] = useState<string | null>(null)
   const [isJoined, setIsJoined] = useState<boolean>(false)
+  const [count, setCount] = useState<number>(0)
+  const [loading, setLoading] = useState<boolean>(false)
   const formRef = useRef<HTMLFormElement>(null)
 
   useEffect(() => {
     const token = localStorage.getItem("token")
-    if (token) {
-      setIsJoined(true)
-    }
+    if (token) setIsJoined(true)
 
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % taglines.length)
@@ -70,20 +70,33 @@ export default function LandingPage() {
     }
   }, [])
 
+  useEffect(() => {
+    const fetchCount = async () => {
+      try {
+        const response = await axios.get('https://raven-waitlist.onrender.com/count')
+        if (response) setCount(response.data.count || 0)
+      } catch (error: any) {
+        console.error(error.message)
+      }
+    }
+    fetchCount()
+  }, [count])
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    setLoading(true)
 
     try {
-      const response = await axios.post(`http://localhost:3000/signup`, {
-        email,
-      })
-      console.log(response.status)
+      const response = await axios.post(`https://raven-waitlist.onrender.com/signup`, { email })
+      setCount(prev => prev + 1)
       localStorage.setItem("token", response.data.token)
       setResponseMessage(response.data.message)
       setIsJoined(true)
     } catch (error) {
       console.error(error)
       setResponseMessage("Something went wrong. Please try again.")
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -146,14 +159,6 @@ export default function LandingPage() {
                   <CarouselPrevious className="absolute left-[-16px] top-1/2 -translate-y-1/2 z-10" />
                   <CarouselNext className="absolute right-[-16px] top-1/2 -translate-y-1/2 z-10" />
                 </Carousel>
-                {/* <div className="flex justify-center gap-2 mt-4">
-                  {screenshots.map((_, index) => (
-                    <div
-                      key={index}
-                      className="w-2.5 h-2.5 rounded-full bg-muted-foreground opacity-50 hover:opacity-80 transition-opacity duration-200"
-                    />
-                  ))}
-                </div> */}
               </section>
 
               {/* Crime Stats */}
@@ -188,8 +193,14 @@ export default function LandingPage() {
                 <p className="text-muted-foreground text-xs mb-3">
                   Be the first to get updates, beta invites, and exclusive features.
                 </p>
+
+                {/* Progress Indicator */}
+                <div className="mb-4 text-xs text-primary font-medium">
+                  {count} / 10,000 Ravens signed up — <span className="underline">Be one now!</span>
+                </div>
+
                 {isJoined ? (
-                  <p className=" text-sm mt-2">
+                  <p className="text-sm mt-2">
                     You're already on the waitlist. We'll keep you posted!
                   </p>
                 ) : (
@@ -206,7 +217,32 @@ export default function LandingPage() {
                         onChange={(e) => setEmail(e.target.value)}
                         value={email}
                       />
-                      <Button type="submit">Sign Up</Button>
+                      <Button type="submit" disabled={loading}>
+                        {loading ? (
+                          <svg
+                            className="animate-spin h-4 w-4 text-primary"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                          >
+                            <circle
+                              className="opacity-25"
+                              cx="12"
+                              cy="12"
+                              r="10"
+                              stroke="currentColor"
+                              strokeWidth="4"
+                            />
+                            <path
+                              className="opacity-75"
+                              fill="currentColor"
+                              d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                            />
+                          </svg>
+                        ) : (
+                          "Sign Up"
+                        )}
+                      </Button>
                     </form>
                     {responseMessage && (
                       <p className="mt-2 text-sm ">
