@@ -191,7 +191,7 @@ export default function LandingPage() {
 
 <div className="flex flex-col sm:flex-row justify-center items-center text-center text-sm text-muted-foreground mb-4 gap-2 px-4">
  <a
-    href="/assets/raven_v1.apk"
+    href="/assets/raven_v_001.apk"
     download={true}
     target="_blank"
     rel="noopener noreferrer"
