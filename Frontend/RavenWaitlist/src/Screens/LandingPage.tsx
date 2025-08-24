@@ -5,6 +5,7 @@ import RavenCallAlert from '../assets/1.png'
 import RavenCall from '../assets/5.png'
 import RavenHome from '../assets/3.png'
 import WatchTower from '../assets/4.png'
+import { Play, Apple , Globe} from "lucide-react";
 
 import {
   Carousel,
@@ -186,6 +187,37 @@ export default function LandingPage() {
               </section>
 
               <Separator className="my-8 max-w-md mx-auto" />
+
+
+<div className="flex flex-col sm:flex-row justify-center items-center text-center text-sm text-muted-foreground mb-4 gap-2 px-4">
+ <a
+    href="/assets/raven_v1.apk"
+    download={true}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="flex items-center text-primary underline hover:text-primary/80 transition"
+  >
+    <Globe className="w-4 h-4 mr-1" /> Download APK
+  </a>
+  <span className="hidden sm:inline mx-1">|</span>
+
+  {/* Google Play - disabled */}
+  <span className="flex items-center text-muted-foreground cursor-not-allowed">
+    <Play className="w-4 h-4 mr-1" /> Google Play (Coming soon)
+  </span>
+
+  <span className="hidden sm:inline mx-1">|</span>
+
+  {/* iOS - coming soon */}
+  <span className="flex items-center text-muted-foreground cursor-not-allowed">
+    <Apple className="w-4 h-4 mr-1" /> iOS (Coming soon)
+  </span>
+
+
+
+  {/* Website APK download - enabled */}
+ 
+</div>
 
               {/* Waitlist */}
               <section className="py-4 px-4 max-w-xl mx-auto text-center" id="waitlist">
