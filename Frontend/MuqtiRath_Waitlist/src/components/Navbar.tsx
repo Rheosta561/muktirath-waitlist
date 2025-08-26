@@ -38,7 +38,7 @@ export default function Navbar() {
         <img
           src={Logo}
           alt="Logo"
-          className={`h-10 w-full scale-125 rounded-full transition duration-300 ${
+          className={`h-10 w-full scale-125 object-cover rounded-full transition duration-300 ${
             theme === "light"
               ? ""
               : "[filter:invert(1)_hue-rotate(195deg)_saturate(100%)]"
