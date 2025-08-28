@@ -46,7 +46,7 @@ export default function Navbar() {
         />
       </div>
 
-      <div className="hidden md:flex gap-4">
+      <div className="hidden md:flex gap-4 a">
         <a href="#home">
           <Button variant="ghost">Home</Button>
         </a>
