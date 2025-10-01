@@ -197,7 +197,7 @@ With a single step, voices long silenced find strength, and forgotten lives find
     download={true}
     target="_blank"
     rel="noopener noreferrer"
-    className="flex items-center text-primary underline hover:text-primary/80 transition"
+    className="flex items-center text-primary underline hover:text-primary/80 transition n"
   >
     <Globe className="w-4 h-4 mr-1" /> Download APK
   </a>
