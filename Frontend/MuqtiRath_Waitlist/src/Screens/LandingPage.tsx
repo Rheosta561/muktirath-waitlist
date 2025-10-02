@@ -193,7 +193,7 @@ With a single step, voices long silenced find strength, and forgotten lives find
 
 <div className="flex flex-col sm:flex-row justify-center items-center text-center text-sm text-muted-foreground mb-4 gap-2 px-4">
  <a
-    href="/assets/logo.png"
+    href="/assets/Muktirath.apk"
     download={true}
     target="_blank"
     rel="noopener noreferrer"
